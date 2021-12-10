@@ -1,0 +1,17 @@
+return function()
+    local platform = script.Parent
+    
+    local part = platform.Part
+    local anchor = platform.Anchor
+ 
+    local targetPosition = part.PrismaticConstraint.TargetPosition
+ 
+    while wait() do
+        local distance = (part.Position - anchor.Position).Magnitude
+ 
+        if math.round(distance) * math.sign(targetPosition) == targetPosition then
+            targetPosition = -targetPosition
+            part.PrismaticConstraint.TargetPosition = targetPosition
+        end
+    end
+end
