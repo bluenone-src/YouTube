@@ -5,17 +5,17 @@ local cooldown = 1
 local cooldown_status = false
 
 function cooldown_timer()
-	cooldown_status = true
-	for i = cooldown, 0, -1 do
-		wait(1)
-	end
-	cooldown_status = false
+    cooldown_status = true
+    for i = cooldown, 0, -1 do
+	wait(1)
+    end
+    cooldown_status = false
 end
 
 mouse.Button1Down:Connect(function()
-	if cooldown_status == false then
-		game.ReplicatedStorage.ShootBullet:FireServer(mouse.Hit, player.Character.Head.Position)
+    if cooldown_status == false then
+	game.ReplicatedStorage.ShootBullet:FireServer(mouse.Hit, player.Character.Head.Position)
 		
-		coroutine.resume( coroutine.create(cooldown_timer) )
-	end
+	coroutine.resume( coroutine.create(cooldown_timer) )
+    end
 end)
