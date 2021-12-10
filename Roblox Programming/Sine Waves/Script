@@ -1,0 +1,16 @@
+local RS = game:GetService('RunService')
+ 
+local part_length = 0.2
+local part_height = 5
+local part_width = 2
+local radius = 5
+ 
+local position = Vector3.new(0, 50, 0)
+ 
+RS.Stepped:Connect(function(current_time)
+    local part = Instance.new('Part', workspace)
+    part.Size = Vector3.new(part_length, part_height, part_width)
+    part.Anchored = true
+    part.Position = position + Vector3.new(0, math.sin(current_time) * radius, 0)
+    position += Vector3.new(part_length, 0, 0)
+end)
