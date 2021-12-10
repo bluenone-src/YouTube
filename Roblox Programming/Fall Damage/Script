@@ -1,0 +1,19 @@
+local char = script.Parent
+local humanoid = char.Humanoid
+local root = char.HumanoidRootPart
+ 
+local minimum_fall_height = 20
+local damage_multiplier = 5
+ 
+local fall_height = 0
+ 
+humanoid.StateChanged:Connect(function(_, newState)
+    if newState == Enum.HumanoidStateType.Freefall then
+        fall_height = root.Position.Y
+    elseif newState == Enum.HumanoidStateType.RunningNoPhysics then
+        fall_height -= root.Position.Y
+        if fall_height > minimum_fall_height then
+            humanoid:TakeDamage( (fall_height - minimum_fall_height) * damage_multiplier )
+        end
+    end
+end)
