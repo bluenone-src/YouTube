@@ -3,23 +3,23 @@ local ignore = {}
 local speed = 100
 
 game.ReplicatedStorage:WaitForChild('ShootBullet').OnServerEvent:Connect(function(player, mouse, origin)
-	local bullet = Instance.new('Part', workspace)
-	bullet.Size = Vector3.new(0.3, 0.3, 0.3)
-	bullet.Material = Enum.Material.Neon
-	bullet.Shape = 'Ball'
-	bullet.CanCollide = false
-	bullet.Position = origin
+    local bullet = Instance.new('Part', workspace)
+    bullet.Size = Vector3.new(0.3, 0.3, 0.3)
+    bullet.Material = Enum.Material.Neon
+    bullet.Shape = 'Ball'
+    bullet.CanCollide = false
+    bullet.Position = origin
 	
-	local body_velo = Instance.new('BodyVelocity', bullet)
-	body_velo.Velocity = mouse.lookVector * speed
+    local body_velo = Instance.new('BodyVelocity', bullet)
+    body_velo.Velocity = mouse.lookVector * speed
 	
-	local touchEvent
-	touchEvent = bullet.Touched:Connect(function(hit)
-		for _, instance in pairs(ignore) do
-			if hit ~= instance then
-				bullet:Destroy()
-				touchEvent:Disconnect()
-			end
-		end
-	end)
+    local touchEvent
+    touchEvent = bullet.Touched:Connect(function(hit)
+        for _, instance in pairs(ignore) do
+	    if hit ~= instance then
+		bullet:Destroy()
+		touchEvent:Disconnect()
+	    end
+	end
+    end)
 end)
