@@ -14,7 +14,7 @@ end
 
 mouse.Button1Down:Connect(function()
     if cooldown_status == false then
-	game.ReplicatedStorage.ShootBullet:FireServer(mouse.Hit, player.Character.Head.Position)
+	game.ReplicatedStorage.ShootBullet:FireServer(mouse.Hit, player.Character.Head.Position + Vector3.new(0, 2, 0))
 		
 	coroutine.resume( coroutine.create(cooldown_timer) )
     end
