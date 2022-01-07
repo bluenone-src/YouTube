@@ -1,0 +1,6 @@
+for _, v in pairs(workspace:GetDescendants()) do
+    if v.Name == 'Laser' then
+	      script.LaserScript:Clone().Parent = v
+        require(v.LaserScript)()
+    end
+end
