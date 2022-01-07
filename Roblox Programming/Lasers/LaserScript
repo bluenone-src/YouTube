@@ -2,26 +2,26 @@ local damage = 50
 local cooldown = 0.2
 
 return function()
-	local on_cooldown = {}
+    local on_cooldown = {}
 	
-	local function cooldown_timer(char)
-		table.insert(on_cooldown, char)
-		wait(cooldown)
-		table.remove(on_cooldown, table.find(on_cooldown, char))
+    local function cooldown_timer(char)
+	table.insert(on_cooldown, char)
+	wait(cooldown)
+	table.remove(on_cooldown, table.find(on_cooldown, char))
+    end
+	
+    script.Parent.Touched:Connect(function(hit)
+	for _, v in pairs(on_cooldown) do
+	    if v == hit.Parent then
+		return
+	    end
 	end
-	
-	script.Parent.Touched:Connect(function(hit)
-		for _, v in pairs(on_cooldown) do
-			if v == hit.Parent then
-				return
-			end
-		end
 		
-		local humanoid = hit.Parent:FindFirstChild('Humanoid')
+	local humanoid = hit.Parent:FindFirstChild('Humanoid')
 		
-		if humanoid then
-			humanoid.Health -= damage
-			coroutine.resume( coroutine.create( cooldown_timer(hit.Parent) ) )
-		end
-	end)
+	if humanoid then
+	    humanoid.Health -= damage
+	    coroutine.resume( coroutine.create( cooldown_timer(hit.Parent) ) )
+	end
+    end)
 end
