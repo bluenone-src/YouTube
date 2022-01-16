@@ -1,0 +1,19 @@
+return function()
+    local door = script.Parent.Parent
+    local hinge = door.Parent.Hinge.HingeConstraint
+	
+    script.Parent.MouseClick:Connect(function()
+        if hinge.TargetAngle == 0 then
+            hinge.TargetAngle = 90
+        else
+            hinge.TargetAngle = 0
+        end
+		
+        if hinge.TargetAngle == 90 then
+            door.CanCollide = false
+        else
+            repeat wait() until math.round(hinge.CurrentAngle) == 0
+            door.CanCollide = true
+        end
+    end)
+end
