@@ -1,0 +1,6 @@
+for _, v in pairs(workspace:GetDescendants()) do
+    if v.Name == 'Door' then
+        script.DoorScript:Clone().Parent = v.Door.ClickDetector
+        require(v.Door.ClickDetector.DoorScript)()
+    end
+end
