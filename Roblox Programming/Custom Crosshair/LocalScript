@@ -1,0 +1,87 @@
+local UserInputService = game:GetService("UserInputService")
+UserInputService.MouseIconEnabled = false
+
+local Configs = game.ReplicatedStorage:WaitForChild("Crosshair")
+
+local Config_CenterDot = Configs:WaitForChild("CenterDot")
+local Config_Outlines = Configs:WaitForChild("Outlines")
+local Config_InnerLines = Configs:WaitForChild("InnerLines")
+local Config_OuterLines = Configs:WaitForChild("OuterLines")
+
+function updateCrosshair()
+	local Color = Configs.Color.Value
+	
+	local function addOutlines(instance)
+		if Configs.OutlinesEnabled.Value then
+			instance.BorderSizePixel = Config_Outlines.Thickness.Value
+			instance.BorderColor3 = Config_Outlines.Color.Value
+		end
+	end
+
+	
+	if Configs.CenterDotEnabled.Value then
+		local CenterDot = Instance.new("Frame")
+		CenterDot.BackgroundColor3 = Color
+		CenterDot.BackgroundTransparency = Config_CenterDot.Transparency.Value
+		
+		local CenterDotThickness = Config_CenterDot.Thickness.Value
+		CenterDot.Size = UDim2.fromOffset(CenterDotThickness, CenterDotThickness)
+		
+		CenterDot.AnchorPoint = Vector2.new(0.5, 0.5)
+		CenterDot.Position = UDim2.fromScale(0.5, 0.5)
+		
+		addOutlines(CenterDot)
+		
+		CenterDot.Parent = script.Parent
+	end
+	
+	if Configs.InnerLinesEnabled.Value then
+		for i = 1, 4 do
+			local InnerLine = Instance.new("Frame")
+			InnerLine.BackgroundColor3 = Color
+			InnerLine.BackgroundTransparency = Config_InnerLines.Transparency.Value
+			
+			local x = Config_InnerLines.Length.Value
+			local y = Config_InnerLines.Thickness.Value
+			local xpos = (i <= 2 and -1 or 1) * Config_InnerLines.Offset.Value
+			local ypos = 0
+			
+			if i % 2 == 0 then
+				x, y = y, x -- Swap the two variables
+				xpos, ypos = ypos, xpos
+			end
+			
+			InnerLine.Size = UDim2.fromOffset(x, y)
+			InnerLine.AnchorPoint = Vector2.new(0.5, 0.5)
+			InnerLine.Position = UDim2.new(.5, xpos, .5, ypos)
+			
+			InnerLine.Parent = script.Parent
+		end
+	end
+	
+	if Configs.OuterLinesEnabled.Value then
+		for i = 1, 4 do
+			local OuterLine = Instance.new("Frame")
+			OuterLine.BackgroundColor3 = Color
+			OuterLine.BackgroundTransparency = Config_OuterLines.Transparency.Value
+
+			local x = Config_OuterLines.Length.Value
+			local y = Config_OuterLines.Thickness.Value
+			local xpos = (i <= 2 and -1 or 1) * Config_OuterLines.Offset.Value
+			local ypos = 0
+
+			if i % 2 == 0 then
+				x, y = y, x -- Swap the two variables
+				xpos, ypos = ypos, xpos
+			end
+
+			OuterLine.Size = UDim2.fromOffset(x, y)
+			OuterLine.AnchorPoint = Vector2.new(0.5, 0.5)
+			OuterLine.Position = UDim2.new(.5, xpos, .5, ypos)
+
+			OuterLine.Parent = script.Parent
+		end
+	end
+end
+
+updateCrosshair()
