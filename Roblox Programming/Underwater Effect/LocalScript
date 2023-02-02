@@ -1,0 +1,17 @@
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+
+local Camera = workspace:WaitForChild("Camera")
+local Water = workspace:WaitForChild("Water")
+local UnderwaterBlur = Lighting:WaitForChild("UnderwaterBlur")
+local UnderwaterColor = Lighting:WaitForChild("UnderwaterColor")
+
+RunService.Stepped:Connect(function()
+	local CameraV3 = Water.CFrame:PointToObjectSpace(Camera.CFrame.Position)
+	local CameraUnderwater = (math.abs(CameraV3.X) <= Water.Size.X / 2)
+		and (math.abs(CameraV3.Y) <= Water.Size.Y / 2)
+		and (math.abs(CameraV3.Z) <= Water.Size.Z / 2)
+
+	UnderwaterBlur.Enabled = CameraUnderwater
+	UnderwaterColor.Enabled = CameraUnderwater
+end)
